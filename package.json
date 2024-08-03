@@ -1,0 +1,26 @@
+{
+    "name": "com.adrianuspax.tmprolocalization",
+    "displayName": "TMPro Localization",
+    "description": "Text Mesh Pro Extensions with Localizations Scripts.",
+    "version": "1.0.0",
+    "unity": "2017.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/adrianuspax/TMProExtensions_Localization.git"
+    },
+    "author": {
+    "name": "Adriano Sampaio Paz",
+    "email": "contato@adrianopaz.com",
+    "url": "https://github.com/adrianuspax"
+  },
+
+    "keywords": [
+      "unity",
+      "scripts",
+      "utilities",
+      "localiztion",
+      "extensions"
+    ],
+    "dependencies": {"com.unity.localization": "1.0.0"}    
+  }
