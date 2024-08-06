@@ -2,7 +2,7 @@
     "name": "com.adrianuspax.tmprolocalization",
     "displayName": "TMPro Localization",
     "description": "Text Mesh Pro Extensions with Localizations Scripts.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "unity": "2017.1",
     "license": "MIT",
     "repository": {

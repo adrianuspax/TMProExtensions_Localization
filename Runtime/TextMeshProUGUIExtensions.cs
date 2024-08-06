@@ -61,37 +61,12 @@ namespace ASP.Extensions
         /// <summary>
         /// Set Localization String
         /// </summary>
-        /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
-        /// <param name="tableReference">The key that the string is stored in Table Collection</param>
+        /// <param name="entry">The key that the string is stored in StringTable</param>
+        /// <param name="table">The key that the string is stored in Table Collection</param>
         /// <returns>Return the localization string</returns>
-        public static void SetLocalizationString(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
+        public static void SetLocalizationString(this TextMeshProUGUI tmp, string entry, string table)
         {
-            if (string.IsNullOrEmpty(tableReference))
-            {
-                Debug.LogWarning($"The {nameof(tableReference)} cannot be null or empty!");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(tableEntryReference))
-            {
-                Debug.LogWarning($"The {nameof(tableEntryReference)} cannot be null or empty!");
-                return;
-            }
-
-            AsyncOperationHandle<string> operation = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(tableReference, tableEntryReference);
-
-            _updateString(operation);
-
-            void _updateString(AsyncOperationHandle<string> operation)
-            {
-                if (!operation.IsDone)
-                {
-                    operation.Completed += _updateString;
-                    return;
-                }
-
-                tmp.text = operation.Result;
-            }
+            LocalizationManager.SetLocalizationString(entry, table, (result) => tmp.text = result);
         }
         /// <summary>
         /// Set Localization Font
