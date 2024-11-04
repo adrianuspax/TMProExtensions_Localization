@@ -16,23 +16,26 @@ namespace ASP.Extensions
     /// </summary>
     public static class TextMeshProUGUIExtensions
     {
-        private static Coroutine coroutine;
+        private static Coroutine _coroutine;
+        private static AsyncOperationHandle _operation;
         /// <summary>
         /// Set Localization String Reference
         /// </summary>
         /// <param name="tmp">Text Mesh Pro UGUI</param>
-        /// <param name="entry">Reference to the <see cref="TableEntry.Key"/> or <see cref="TableEntry.KeyId"</param>
-        /// <param name="table">Reference to the <see cref="LocalizationTable.TableCollectionName"/> or <see cref="SharedTableData.TableCollectionNameGuid"</param>
+        /// <param name="entry">Reference to the <see cref="TableEntry.Key"/> or <see cref="TableEntry.KeyId" />
+        /// </param>
+        /// <param name="table">Reference to the <see cref="LocalizationTable.TableCollectionName"/> or <see cref="SharedTableData.TableCollectionNameGuid" />
+        /// </param>
         /// <param name="monoBehaviour">Mono Behaviour (Use this)</param>
         /// <returns>Returns true if the localization reference was successfully assigned</returns>
         public static bool SetLocalizationStringTrackedUGUI(this TextMeshProUGUI tmp, string entry, string table, MonoBehaviour monoBehaviour)
         {
-            if (tmp.TryGetComponent(out GameObjectLocalizer gameObjectLocalizer))
+            if (tmp.TryGetComponent(out GameObjectLocalizer gameObjectLocalize))
             {
-                TrackedUGuiGraphic trackedText = gameObjectLocalizer.GetTrackedObject<TrackedUGuiGraphic>(tmp);
+                TrackedUGuiGraphic trackedText = gameObjectLocalize.GetTrackedObject<TrackedUGuiGraphic>(tmp);
                 LocalizedStringProperty textVariant = trackedText.GetTrackedProperty<LocalizedStringProperty>("m_text");
                 textVariant.LocalizedString.SetReference(table, entry);
-                coroutine ??= monoBehaviour.StartCoroutine(_applyLocaleVariant());
+                _coroutine ??= monoBehaviour.StartCoroutine(_applyLocaleVariant());
             }
             else if (tmp.TryGetComponent(out LocalizeStringEvent localizeStringEvent))
             {
@@ -40,27 +43,26 @@ namespace ASP.Extensions
             }
             else
             {
-                Debug.LogWarning($"The referenced TextMeshPro has no GameObjectLocalizer or LocalizeStringEvent built-in!", monoBehaviour);
+                Debug.LogWarning($"The referenced TextMeshPro has no GameObjectLocalize or LocalizeStringEvent built-in!", monoBehaviour);
             }
 
-            return coroutine == null;
+            return _coroutine == null;
 
             IEnumerator _applyLocaleVariant()
             {
-                AsyncOperationHandle operation;
-
                 do
                 {
-                    operation = gameObjectLocalizer.ApplyLocaleVariant(LocalizationSettings.SelectedLocale);
+                    _operation = gameObjectLocalize.ApplyLocaleVariant(LocalizationSettings.SelectedLocale);
                     yield return null;
-                } while (!operation.IsDone);
+                } while (!_operation.IsDone);
 
-                coroutine = null;
+                _coroutine = null;
             }
         }
         /// <summary>
         /// Set Localization String
         /// </summary>
+        /// <param name="tmp">Text Mesh Pro</param>
         /// <param name="entry">The key that the string is stored in StringTable</param>
         /// <param name="table">The key that the string is stored in Table Collection</param>
         /// <returns>Return the localization string</returns>
@@ -71,6 +73,7 @@ namespace ASP.Extensions
         /// <summary>
         /// Set Localization Font
         /// </summary>
+        /// <param name="tmp">Text Mesh Pro</param>
         /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
         /// <param name="tableReference">The key that the string is stored in Table Collection</param>
         public static void SetLocalizationFont(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
@@ -100,6 +103,7 @@ namespace ASP.Extensions
         /// <summary>
         /// Set Localization Material
         /// </summary>
+        /// <param name="tmp">Text Mesh Pro</param>
         /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
         /// <param name="tableReference">The key that the string is stored in Table Collection</param>
         public static void SetLocalizationMaterial(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
@@ -118,7 +122,7 @@ namespace ASP.Extensions
 
             Material material = LocalizationSettings.AssetDatabase.GetLocalizedAssetAsync<Material>(tableReference, tableEntryReference).Result;
 
-            if (material == null)
+            if (!material)
             {
                 Debug.LogWarning($"The key was not found: \"{tableEntryReference}\"!");
                 return;

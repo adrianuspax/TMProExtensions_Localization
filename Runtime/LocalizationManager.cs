@@ -7,7 +7,7 @@ namespace ASP.Extensions
 {
     public static class LocalizationManager
     {
-        private static AsyncOperationHandle<string> operation;
+        private static AsyncOperationHandle<string> _operation;
 
         public static AsyncOperationHandle<string> SetLocalizationString(string entry, string table, UnityAction<string> action)
         {
@@ -24,11 +24,11 @@ namespace ASP.Extensions
             }
 
             LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-            operation = stringDatabase.GetLocalizedStringAsync(table, entry);
+            _operation = stringDatabase.GetLocalizedStringAsync(table, entry);
 
-            _updateString(operation);
+            _updateString(_operation);
             
-            return operation;
+            return _operation;
 
             void _updateString(AsyncOperationHandle<string> operation)
             {
@@ -41,6 +41,8 @@ namespace ASP.Extensions
                 action?.Invoke(operation.Result);
             }
         }
+        
+        public static AsyncOperationHandle<string> AsyncOperationHandle => _operation;
     }
 }
 
