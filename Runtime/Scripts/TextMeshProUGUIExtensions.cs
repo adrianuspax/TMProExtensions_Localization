@@ -9,7 +9,7 @@ using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace ASP.Extensions
+namespace ASPax.Extensions
 {
     /// <summary>
     /// Code extension for Text Mesh Pro UGUI
