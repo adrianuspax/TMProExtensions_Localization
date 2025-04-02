@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.Localization.Settings;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace ASP.Extensions
+namespace ASPax.Extensions
 {
     public static class LocalizationManager
     {
@@ -27,7 +27,7 @@ namespace ASP.Extensions
             _operation = stringDatabase.GetLocalizedStringAsync(table, entry);
 
             _updateString(_operation);
-            
+
             return _operation;
 
             void _updateString(AsyncOperationHandle<string> operation)
@@ -41,9 +41,7 @@ namespace ASP.Extensions
                 action?.Invoke(operation.Result);
             }
         }
-        
+
         public static AsyncOperationHandle<string> AsyncOperationHandle => _operation;
     }
 }
-
-
