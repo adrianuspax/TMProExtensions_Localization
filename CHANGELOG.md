@@ -4,3 +4,4 @@
 # 1.0.3 - Localization Manager access to Operation Handler
 # 2.0.1 - Updated for ASPax
 # 3.0.0 - Logic improvement
+# 3.1.0 - Added new functions for handling the Async Operation Handler
