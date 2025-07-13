@@ -1,6 +1,6 @@
-[Portuguese Version](./README.md)
+[Portuguese Version](../README.md)
 
-[English Version](./Documentation~/README.en-US.md)
+[English Version](./README.en-US.md)
 
 # TMPro 지역화 확장
 

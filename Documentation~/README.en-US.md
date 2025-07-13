@@ -1,6 +1,6 @@
-[Portuguese Version](./README.md)
+[Portuguese Version](../README.md)
 
-[Korean Version](./Documentation~/README.ko-KR.md)
+[Korean Version](./README.ko-KR.md)
 
 # TMPro Localization Extensions
 
